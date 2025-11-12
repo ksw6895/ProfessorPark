@@ -5,11 +5,11 @@ import { useState } from "react";
 import { hydrostaticPostures, type HydrostaticPosture } from "./hydrostatic-posture-data";
 
 const assumptions = [
-  { label: "CSF production", value: "0.3 mL/min" },
-  { label: "Catheter inner radius", value: "0.6 mm (ID 1.2 mm)" },
-  { label: "Catheter length", value: "0.80 m" },
-  { label: "Fluid density", value: "1,007 kg/m³" },
-  { label: "Dynamic viscosity", value: "0.0007 Pa·s" },
+  { label: "CSF 생성 속도", value: "0.3 mL/min" },
+  { label: "카테터 내경 (반지름)", value: "0.6 mm (ID 1.2 mm)" },
+  { label: "카테터 길이", value: "0.80 m" },
+  { label: "유체 밀도 (Density)", value: "1,007 kg/m³" },
+  { label: "동점도 (Viscosity)", value: "0.0007 Pa·s" },
 ];
 
 const maxMagnitude = Math.max(...hydrostaticPostures.map((posture) => Math.abs(posture.hydrostatic)));
@@ -20,7 +20,7 @@ function PostureFigure({ posture }: { posture: HydrostaticPosture }) {
   const measurementHeight = Math.abs(offset);
   const measurementMid = measurementTop + measurementHeight / 2;
   const measurementColor = posture.deltaH >= 0 ? "bg-sky-400/60" : "bg-amber-400/70";
-  const measurementNarrative = posture.deltaH >= 0 ? "Gravity assists" : "Gravity resists";
+  const measurementNarrative = posture.deltaH >= 0 ? "중력 보조" : "중력 저항";
   const deltaLabel = `${posture.deltaH > 0 ? "+" : ""}${posture.deltaH} cm`;
 
   return (
@@ -28,7 +28,7 @@ function PostureFigure({ posture }: { posture: HydrostaticPosture }) {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(148,163,184,0.25),_transparent_70%)]" />
       <div className="relative z-10 flex h-full flex-col justify-between">
         <div className="flex items-center justify-between text-xs uppercase tracking-wide text-slate-400">
-          <span>Orientation</span>
+          <span>자세 (Orientation)</span>
           <span className="font-semibold text-sky-300">{posture.label}</span>
         </div>
         <div className="relative flex flex-1 items-center justify-center">
@@ -38,12 +38,12 @@ function PostureFigure({ posture }: { posture: HydrostaticPosture }) {
               className="absolute left-1/2 top-[92px] flex -translate-x-1/2 flex-col items-center gap-2"
               style={{ transform: `translateY(${offset}px)`, transition: "transform 500ms ease-out" }}
             >
-              <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Peritoneum</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">복강 (Peritoneum)</span>
               <div className="h-4 w-4 rounded-full bg-sky-400 shadow-[0_0_12px_rgba(56,189,248,0.45)]" />
             </div>
             <div className="absolute left-1/2 top-[92px] flex -translate-x-1/2 flex-col items-center gap-2">
               <div className="h-4 w-4 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.45)]" />
-              <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Ventricles</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">뇌실 (Ventricles)</span>
             </div>
             <div
               className={`absolute left-[70%] w-1 rounded-full ${measurementColor}`}
@@ -82,7 +82,7 @@ function PostureFigure({ posture }: { posture: HydrostaticPosture }) {
           </div>
         </div>
         <div className="rounded-2xl bg-white/5 p-4 text-xs text-slate-300">
-          Δh = <span className="font-semibold text-white">{posture.deltaH} cm</span> · Hydrostatic drive =
+          Δh = <span className="font-semibold text-white">{posture.deltaH} cm</span> · Hydrostatic drive(정수압) =
           <span className="font-semibold text-white"> {posture.hydrostatic.toFixed(2)} cmH₂O</span>
         </div>
       </div>
@@ -96,12 +96,10 @@ export function HydrostaticSimulator() {
   return (
     <section>
       <div className="section-wrapper">
-        <span className="badge">Q2 · Quantification</span>
-        <h2 className="section-title">Hydrostatic head dwarfs viscous losses</h2>
+        <span className="badge">Q2 · 정량화 (Quantification)</span>
+        <h2 className="section-title">정수압 헤드, 점성 저항을 압도하다</h2>
         <p className="section-subtitle max-w-4xl">
-          Using a 0.6&nbsp;mm radius catheter and a physiologic CSF production rate (0.3&nbsp;mL/min), viscous friction extracts
-          barely 0.56&nbsp;cmH₂O. Posture-induced height differences swing the driving pressure from −10 to +45&nbsp;cmH₂O,
-          explaining why overdrainage erupts as soon as patients sit or stand.
+          반경 0.6mm 카테터와 생리적인 CSF 생성 속도(0.3&nbsp;mL/min)를 기준으로 할 때, 점성 마찰(viscous friction)은 고작 0.56&nbsp;cmH₂O의 압력 손실만을 유발합니다. 반면, 자세로 인한 높이 차이는 구동 압력을 −10에서 +45&nbsp;cmH₂O까지 변화시킵니다. 이는 환자가 앉거나 일어서는 즉시 과배액이 폭발적으로 발생하는 이유를 설명합니다.
         </p>
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] xl:gap-16">
           <div className="card flex-1 space-y-8">
@@ -110,7 +108,7 @@ export function HydrostaticSimulator() {
                 <PostureFigure posture={selected} />
               </div>
               <div className="space-y-4">
-                <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">Simulation assumptions</p>
+                <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">시뮬레이션 가정 (Assumptions)</p>
                 <ul className="space-y-2 text-sm text-slate-600">
                   {assumptions.map((item) => (
                     <li key={item.label} className="flex items-center justify-between rounded-xl bg-slate-100/60 px-4 py-2">
@@ -140,29 +138,29 @@ export function HydrostaticSimulator() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="rounded-xl bg-slate-50 p-4">
                   <p className="metric">{selected.deltaH}&nbsp;cm</p>
-                  <p className="metric-label">Δh (ventricle − abdomen)</p>
+                  <p className="metric-label">Δh (뇌실 − 복부)</p>
                 </div>
                 <div className="rounded-xl bg-slate-50 p-4">
                   <p className="metric">{selected.hydrostatic.toFixed(2)}&nbsp;cmH₂O</p>
-                  <p className="metric-label">Hydrostatic drive</p>
+                  <p className="metric-label">정수압 구동력 (Hydrostatic drive)</p>
                 </div>
                 <div className="rounded-xl bg-slate-50 p-4">
                   <p className="metric">{selected.viscous > 0 ? "+" : ""}{selected.viscous.toFixed(2)}&nbsp;cmH₂O</p>
-                  <p className="metric-label">Viscous loss</p>
+                  <p className="metric-label">점성 손실 (Viscous loss)</p>
                 </div>
                 <div className="rounded-xl bg-slate-50 p-4">
                   <p className="metric">{selected.effective.toFixed(2)}&nbsp;cmH₂O</p>
-                  <p className="metric-label">Net driving pressure</p>
+                  <p className="metric-label">순수 구동 압력 (Net driving pressure)</p>
                 </div>
               </div>
-              <p className="text-sm font-medium text-slate-500">Flow direction: {selected.direction}</p>
+              <p className="text-sm font-medium text-slate-500">흐름 방향: {selected.direction}</p>
             </div>
           </div>
           <div className="flex-1 space-y-6">
             <div className="card bg-slate-900 text-slate-100">
-              <h3 className="text-lg font-semibold">Posture vs. driving pressure</h3>
+              <h3 className="text-lg font-semibold">자세 對 구동 압력 (Posture vs. driving pressure)</h3>
               <p className="mt-2 text-sm text-slate-300">
-                Hydrostatic gains outstrip viscous losses by more than ×50. Raising valve opening pressure alone cannot neutralise this gradient.
+                정수압으로 인한 이득이 점성 손실을 50배 이상 능가합니다. 밸브의 개방 압력을 높이는 것만으로는 이 구배(gradient)를 상쇄할 수 없습니다.
               </p>
               <div className="mt-8 space-y-6">
                 {hydrostaticPostures.map((posture) => {
@@ -187,7 +185,7 @@ export function HydrostaticSimulator() {
                   );
                 })}
                 <div className="rounded-xl bg-slate-800/80 p-4 text-xs text-slate-300">
-                  Zero at center. Bars to the right of zero accelerate drainage; those to the left indicate uphill flow that resists movement.
+                  중앙이 0점입니다. 0점 오른쪽 막대는 배액을 가속화하며, 왼쪽 막대는 흐름에 저항하는 오르막을 나타냅니다.
                 </div>
               </div>
             </div>

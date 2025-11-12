@@ -3,28 +3,28 @@ import Image from "next/image";
 const coreQuestions = [
   {
     id: "Q1",
-    title: "What is it, and why does it matter?",
+    title: "Q1. 정의 및 임상적 중요성",
     description:
-      "Trace the siphon phenomenon from a laboratory siphon to the ventricular shunt and expose how gravity becomes a clinical hazard.",
+      "실험실의 사이펀에서 뇌실 션트까지 사이펀 현상을 추적하고, 어떻게 중력(gravity)이 임상적 위험 요소가 되는지 밝힙니다.",
   },
   {
     id: "Q2",
-    title: "How big is the problem?",
+    title: "Q2. 문제의 규모 (정량화)",
     description:
-      "Quantify the hydrostatic head created by posture changes and reveal why viscous losses cannot offset Δρgh.",
+      "자세 변화로 인해 생성되는 정수압 헤드(hydrostatic head)를 정량화하고, 점성 저항(viscous loss)이 왜 Δρgh를 상쇄할 수 없는지 증명합니다.",
   },
   {
     id: "Q3",
-    title: "How do we solve it?",
+    title: "Q3. 공학적 해결책",
     description:
-      "Compare modern valve strategies and demonstrate how gravitational compensation neutralises siphon-driven overdrainage.",
+      "최신 밸브 전략을 비교하고, 중력 보상(gravitational compensation) 메커니즘이 어떻게 사이펀으로 인한 과배액을 무력화하는지 보여줍니다.",
   },
 ];
 
 const stats = [
-  { label: "Δh (supine → erect)", value: "+55 cm" },
-  { label: "Programmable valves", value: "Only partial control" },
-  { label: "Clinical focus", value: "Neurosurgery & CSF dynamics" },
+  { label: "Δh (Supine → Erect)", value: "+55 cm" },
+  { label: "프로그래머블 밸브", value: "부분적인 제어만 가능" },
+  { label: "임상 초점", value: "신경외과 & CSF 역학" },
 ];
 
 export function HeroSection() {
@@ -36,14 +36,14 @@ export function HeroSection() {
       </div>
       <div className="section-wrapper relative z-10 flex flex-col gap-16 lg:flex-row lg:items-center">
         <div className="flex-1 space-y-8 fade-up">
-          <span className="badge bg-white/10 text-slate-100">Siphon Phenomenon</span>
+          <span className="badge bg-white/10 text-slate-100">사이펀 현상 (Siphon Phenomenon)</span>
           <h1 className="text-4xl font-black leading-tight sm:text-5xl lg:text-6xl">
-            The siphon effect in ventricular shunts: where physics meets neurosurgery
+            뇌실 션트의 사이펀 효과: 물리학이 신경외과를 만나는 지점
           </h1>
           <p className="max-w-2xl text-lg leading-relaxed text-slate-200">
-            Follow the journey from a simple aquarium siphon to an implanted CSF shunt. This briefing equips neurosurgeons and
-            trainees with a unified narrative—physics, quantitative analysis, and engineering countermeasures—to defend patients
-            against posture-driven overdrainage.
+            간단한 수족관 사이펀에서부터 체내에 삽입된 CSF 션트까지의 여정을 따라가 보세요. 이 브리핑은 신경외과 의사와 수련의에게 물리학,
+            정량 분석, 공학적 대응책을 통합하는 하나의 내러티브를 제공하여, 자세 변화로 인한 과배액(overdrainage)으로부터 환자를 보호할 수
+            있도록 돕습니다.
           </p>
           <div className="grid gap-4 sm:grid-cols-3">
             {stats.map((stat) => (
@@ -58,17 +58,16 @@ export function HeroSection() {
           <div className="relative h-[360px] overflow-hidden rounded-3xl border border-white/10 bg-slate-900/60">
             <Image
               src="/hero-illustration.svg"
-              alt="MRI inspired illustration showing ventricular catheter"
+              alt="뇌실 카테터를 보여주는 MRI 스타일 삽화"
               fill
               priority
               className="object-cover opacity-80"
             />
             <div className="absolute inset-0 bg-gradient-to-tr from-slate-950 via-slate-900/30 to-transparent" />
             <div className="absolute bottom-6 left-6 right-6 rounded-2xl bg-slate-950/70 p-5 backdrop-blur">
-              <p className="text-sm font-semibold uppercase tracking-widest text-sky-400">Grand Rounds Ready</p>
+              <p className="text-sm font-semibold uppercase tracking-widest text-sky-400">그랜드 라운드 (Grand Rounds) 준비 완료</p>
               <p className="mt-2 text-sm leading-relaxed text-slate-200">
-                Layered storytelling, interactive simulations, and deploy-to-Vercel readiness crafted for neurosurgical faculty
-                and students.
+                신경외과 교수진과 학생들을 위해 설계된 계층적 스토리텔링, 인터랙티브 시뮬레이션, 그리고 Vercel 배포 편의성.
               </p>
             </div>
           </div>
