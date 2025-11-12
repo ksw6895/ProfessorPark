@@ -382,7 +382,7 @@ function DatasetTable({ datasetKey }: { datasetKey: DatasetKey }) {
 
 export function ReferenceDatasets() {
   return (
-    <section>
+    <section id="datasets" className="scroll-mt-32">
       <div className="section-wrapper">
         <span className="badge">Q2 · Quantification</span>
         <h2 className="section-title">Reference datasets for hydrostatic gradients</h2>

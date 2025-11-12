@@ -51,7 +51,7 @@ export function AnimatedPhysicsDiagram() {
   }, []);
 
   return (
-    <section className="bg-white">
+    <section id="physics" className="bg-white scroll-mt-32">
       <div className="section-wrapper grid gap-12 lg:grid-cols-[2fr,3fr] lg:items-center">
         {/* 1. 텍스트 설명 부분 */}
         <div className="space-y-6">

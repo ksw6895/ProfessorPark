@@ -18,7 +18,7 @@ const summaryPoints = [
 
 export function ConclusionSection() {
   return (
-    <section className="bg-slate-900 text-slate-100">
+    <section id="conclusion" className="bg-slate-900 text-slate-100 scroll-mt-32">
       <div className="section-wrapper">
         <span className="badge bg-white/10 text-slate-100">Conclusion</span>
         <h2 className="mt-6 text-3xl font-extrabold tracking-tight sm:text-4xl">Key takeaways for decision makers</h2>

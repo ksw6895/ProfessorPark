@@ -29,7 +29,7 @@ const stats = [
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-slate-950 text-slate-100">
+    <section id="overview" className="relative scroll-mt-32 overflow-hidden bg-slate-950 text-slate-100">
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(30,64,175,0.45),_transparent_65%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(2,132,199,0.18),transparent_55%)]" />

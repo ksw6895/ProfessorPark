@@ -128,13 +128,13 @@ export function ShuntValveSimulator() {
   const [active, setActive] = useState(valves[2]);
 
   return (
-    <section className="bg-white">
+    <section id="valves" className="bg-white scroll-mt-32">
       <div className="section-wrapper">
         <span className="badge">Q3 · Engineering response</span>
-        <h2 className="section-title">중력 밸브가 사이펀을 제어하는 원리</h2>
+        <h2 className="section-title">How gravitational valves rein in the siphon</h2>
         <p className="section-subtitle max-w-4xl">
-          다양한 밸브 구조가 자세 변화에 어떻게 반응하는지 비교하십시오. 오직 중력 보상 설계만이 환자가 일어설 때
-          정확하게 저항을 추가하여, 누운 자세의 배액을 방해하지 않으면서 Δρgh 급증을 상쇄합니다.
+          Compare how each valve architecture reacts to posture changes. Only gravity-compensated designs add just enough
+          resistance when the patient stands to cancel the Δρgh surge while leaving supine drainage unobstructed.
         </p>
         <div className="mb-10 rounded-2xl border border-slate-200/70 bg-white p-6 text-sm text-slate-600">
           <p className="font-semibold uppercase tracking-wide text-primary">이 모듈 활용법</p>
