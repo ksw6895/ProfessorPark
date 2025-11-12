@@ -44,26 +44,25 @@ a {
   animation: fade-right 0.6s ease-out forwards;
 }
 
-details {
-  @apply transition;
+
+.dataset-accordion {
+  @apply rounded-xl border border-slate-200/80 bg-white transition;
 }
 
-details[open] {
+.dataset-accordion[open] {
   @apply border-primary/30 shadow-soft;
 }
 
-details summary {
-  @apply flex items-center justify-between gap-3 text-sm;
+.dataset-accordion summary {
+  @apply flex w-full cursor-pointer flex-wrap items-center justify-between gap-4 text-left text-sm;
 }
 
-details summary::after {
-  content: "+";
-  @apply text-primary/60 transition-transform;
+.dataset-accordion summary::-webkit-details-marker {
+  display: none;
 }
 
-details[open] summary::after {
-  content: "−";
-  @apply rotate-180 text-primary;
+.dataset-accordion summary::marker {
+  content: "";
 }
 
 .section-wrapper {
