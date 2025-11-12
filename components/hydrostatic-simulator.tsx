@@ -170,9 +170,9 @@ export function HydrostaticSimulator() {
                   const isNegative = posture.hydrostatic < 0;
                   return (
                     <div key={posture.id} className="space-y-2">
-                      <div className="flex items-center justify-between text-xs uppercase tracking-wide text-slate-400">
-                        <span>{posture.label}</span>
-                        <span>{posture.hydrostatic.toFixed(2)} cmH₂O</span>
+                      <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1 text-xs uppercase tracking-wide text-slate-400">
+                        <span className="min-w-0 shrink">{posture.label}</span>
+                        <span className="min-w-0 shrink">{posture.hydrostatic.toFixed(2)} cmH₂O</span>
                       </div>
                       <div className="relative h-3 overflow-hidden rounded-full bg-slate-700">
                         <div
