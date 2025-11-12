@@ -61,7 +61,7 @@ export function AnimatedPhysicsDiagram() {
             사이펀은 더 높은 곳의 유체가 중간의 더 높은 지점(Apex)을 넘어 더 낮은 출구로 흐르는 현상입니다. 이 흐름은 대기압과 중력에 의한 무게 차이(정수압 헤드)로 유지됩니다.
           </p>
           <div className="rounded-2xl border border-slate-200/80 bg-white p-5">
-            <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">Key equation</p>
+            <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">핵심 공식 (Key equation)</p>
             <p className="mt-3 text-lg font-semibold text-primary">ΔP_drive = P_atm + (ρ g h_1) - (ρ g h_2) - P_losses</p>
             <p className="mt-2 text-sm leading-relaxed text-slate-600">
               핵심은 중력이 긴 다리(h_2)를 당기는 힘이 짧은 다리(h_1)를 누르는 힘보다 커서 발생하는 **순수 압력 차이(Δρgh)**입니다.
@@ -125,7 +125,7 @@ export function AnimatedPhysicsDiagram() {
             <rect x="20" y="150" width="100" height="100" fill="#0ea5e9" fillOpacity="0.6" />
             <line x1="20" y1="150" x2="120" y2="150" stroke="#38bdf8" strokeWidth="2" />
             <text x="70" y="270" textAnchor="middle" fill="#94a3b8" fontSize="12" className="font-semibold uppercase tracking-wide">
-              Reservoir
+              Reservoir (저장조)
             </text>
 
             {/* 튜브 (Path) - 배경 */}
@@ -193,10 +193,9 @@ export function AnimatedPhysicsDiagram() {
               <line x1="330" y1="150" x2="330" y2="280" stroke="#f87171" strokeWidth="2" strokeDasharray="4 4" />
               <ArrowDown x="320" y="200" width="20" height="20" color="#f87171" />
               <text x="340" y="190" fill="#f87171" fontSize="14" className="font-bold">Δρgh</text>
-              <text x="340" y="210" fill="#fca5a5" fontSize="12">(Gravitational</text>
-              <text x="340" y="225" fill="#fca5a5" fontSize="12">Head)</text>
+              <text x="340" y="210" fill="#fca5a5" fontSize="12">(중력 헤드)</text>
               <text x="310" y="295" textAnchor="middle" fill="#94a3b8" fontSize="12" className="font-semibold uppercase tracking-wide">
-                Down-leg
+                Down-leg (하강관)
               </text>
             </g>
 

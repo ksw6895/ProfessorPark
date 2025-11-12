@@ -146,7 +146,7 @@ function DatasetSvgPreview({ datasetKey }: { datasetKey: DatasetKey }) {
           preserveAspectRatio="xMidYMid meet"
           className="h-auto w-full"
         >
-          <title id={`${datasetKey}-svg-title`}>{`${title} hydrostatic gradient preview`}</title>
+          <title id={`${datasetKey}-svg-title`}>{`${title} 정수압 구배 미리보기`}</title>
           <defs>
             <linearGradient id={gradientId} x1="0%" x2="100%" y1="0%" y2="0%">
               <stop offset="0%" stopColor="#0ea5e9" />
@@ -175,7 +175,7 @@ function DatasetSvgPreview({ datasetKey }: { datasetKey: DatasetKey }) {
             {title}
           </text>
           <text x={geometry.width / 2} y={62} textAnchor="middle" fill="#cbd5e1" fontSize={12}>
-            Hydrostatic gradient referenced to the umbilicus
+            배꼽(Umbilicus) 기준 정수압 구배
           </text>
           <line
             x1={geometry.margin.left}
@@ -210,7 +210,7 @@ function DatasetSvgPreview({ datasetKey }: { datasetKey: DatasetKey }) {
             fontSize={10}
             letterSpacing="0.2em"
           >
-            NEUTRAL AXIS
+            중립축 (NEUTRAL AXIS)
           </text>
           {geometry.bars.map((bar) => (
             <g key={bar.level}>
@@ -288,8 +288,8 @@ function DatasetSvgPreview({ datasetKey }: { datasetKey: DatasetKey }) {
               fontSize={10}
               letterSpacing="0.15em"
             >
-              PEAK GRADIENT
-            </text>
+              최대 구배 (PEAK GRADIENT)
+          </text>
             <text
               x={geometry.width - geometry.margin.right}
               y={geometry.chartTop + 2}
@@ -305,8 +305,7 @@ function DatasetSvgPreview({ datasetKey }: { datasetKey: DatasetKey }) {
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.12),_rgba(14,116,144,0.05),_transparent_70%)]" />
       </div>
       <figcaption className="border-t border-white/5 bg-slate-900/80 px-6 py-4 text-sm leading-relaxed text-slate-200">
-        Gravity bends the pressure profile around the thoracic spine. Highlighted bars mark the dominant level in this posture,
-        and the teal axis shows the zero-crossing where siphoning reverses.
+        중력은 흉추(thoracic spine) 주변의 압력 프로파일을 변화시킵니다. 강조된 막대는 이 자세에서 가장 지배적인 레벨을 표시하며, 청록색 축은 사이펀 현상이 역전되는 0점(zero-crossing)을 보여줍니다.
       </figcaption>
     </figure>
   );
@@ -325,15 +324,15 @@ function DatasetTable({ datasetKey }: { datasetKey: DatasetKey }) {
           <div className="max-w-xs">
             <p className="text-base font-semibold text-primary">{title}</p>
             <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
-              Hydrostatic slices referenced to the umbilicus
+              배꼽(Umbilicus) 기준 정수압 슬라이스
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-wide text-slate-400">
             <span className="rounded-full bg-primary/10 px-3 py-1 text-primary">
-              Peak {peakRow.hydrostatic >= 0 ? "+" : ""}
+              최대 (Peak) {peakRow.hydrostatic >= 0 ? "+" : ""}
               {peakRow.hydrostatic.toFixed(2)} cmH₂O @ {peakRow.level}
             </span>
-            <span className="rounded-full bg-amber-500/10 px-3 py-1 text-amber-500">Span {span.toFixed(2)} cmH₂O</span>
+            <span className="rounded-full bg-amber-500/10 px-3 py-1 text-amber-500">범위 (Span) {span.toFixed(2)} cmH₂O</span>
             <span className="rounded-full bg-slate-100 px-2 py-1 text-[0.65rem] font-bold text-primary transition group-open:rotate-45 group-open:bg-primary group-open:text-white">
               +
             </span>
@@ -344,7 +343,7 @@ function DatasetTable({ datasetKey }: { datasetKey: DatasetKey }) {
         <table className="min-w-full divide-y divide-slate-200 text-sm">
           <thead>
             <tr className="bg-slate-50 text-xs uppercase tracking-wider text-slate-500">
-              <th className="px-4 py-2 text-left">Level</th>
+              <th className="px-4 py-2 text-left">레벨 (Level)</th>
               <th className="px-4 py-2 text-right">Δh (cm)</th>
               <th className="px-4 py-2 text-right">ΔPₕ (cmH₂O)</th>
               <th className="px-4 py-2 text-right">ΔPₕ (mmHg)</th>
@@ -372,8 +371,7 @@ function DatasetTable({ datasetKey }: { datasetKey: DatasetKey }) {
         </table>
       </div>
       <p className="mt-3 text-xs text-slate-500">
-        Calibrated for a 175 cm adult with the ventricles aligned to the external auditory meatus. Adjust Δh to re-compute pressures
-        using ΔPₕ ≈ 1.007 × Δh.
+        175cm 성인, 뇌실을 외이도(EAM)에 정렬한 기준. Δh 값을 조절하고 ΔPₕ ≈ 1.007 × Δh 공식을 사용하여 압력을 다시 계산할 수 있습니다.
       </p>
       <DatasetSvgPreview datasetKey={datasetKey} />
     </details>
@@ -384,11 +382,10 @@ export function ReferenceDatasets() {
   return (
     <section>
       <div className="section-wrapper">
-        <span className="badge">Q2 · Quantification</span>
-        <h2 className="section-title">Reference datasets for hydrostatic gradients</h2>
+        <span className="badge">Q2 · 정량화 (Quantification)</span>
+        <h2 className="section-title">정수압 구배 (Hydrostatic Gradients) 참조 데이터셋</h2>
         <p className="section-subtitle max-w-4xl">
-          Explore the source measurements used throughout the report. Each accordion reveals the tabulated Δh and ΔP values along with a
-          responsive SVG preview optimised for presentation capture.
+          보고서 전반에 사용된 원시 측정 데이터를 탐색하십시오. 각 아코디언은 표로 정리된 Δh 및 ΔP 값과 함께, 발표 자료 캡처에 최적화된 반응형 SVG 미리보기를 제공합니다.
         </p>
         <div className="mt-6 space-y-3 text-sm text-slate-600">
           <DatasetTable datasetKey="upright" />

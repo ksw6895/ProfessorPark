@@ -6,8 +6,8 @@ export const hydrostaticPostures = [
     hydrostatic: -10.07,
     viscous: 0.56,
     effective: -10.63,
-    direction: "Abdomen → Cranial (gravity resists drainage)",
-    headline: "Recumbent patients need extra driving pressure; gravity creates a −10 cm head.",
+    direction: "복부 → 두개 (중력이 배액에 저항)",
+    headline: "누운 자세(Recumbent)에서는 중력이 -10 cm 헤드를 생성하여 추가적인 구동 압력이 필요합니다.",
   },
   {
     id: "sitting",
@@ -16,9 +16,9 @@ export const hydrostaticPostures = [
     hydrostatic: 30.22,
     viscous: -0.56,
     effective: 29.66,
-    direction: "Cranial → Abdomen (gravity assists flow)",
+    direction: "두개 → 복부 (중력이 흐름을 보조)",
     headline:
-      "Sitting introduces ~30 cmH₂O of downhill pressure—already an order of magnitude above viscous losses.",
+      "앉은 자세(Sitting)는 약 30 cmH₂O의 내리막 압력을 생성하며, 이는 점성 손실보다 이미 수십 배 큽니다.",
   },
   {
     id: "standing",
@@ -27,8 +27,8 @@ export const hydrostaticPostures = [
     hydrostatic: 45.33,
     viscous: -0.56,
     effective: 44.77,
-    direction: "Cranial → Abdomen (gravity dominates)",
-    headline: "Upright posture pushes nearly 45 cmH₂O through the shunt, overwhelming any programmable setting.",
+    direction: "두개 → 복부 (중력이 지배적)",
+    headline: "선 자세(Upright)는 션트를 통해 거의 45 cmH₂O의 압력을 밀어내며, 이는 어떤 프로그래머블 설정으로도 감당하기 어렵습니다.",
   },
 ] as const;
 

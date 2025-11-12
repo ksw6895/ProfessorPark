@@ -6,18 +6,18 @@ type PressureComparisonChartProps = {
 export function PressureComparisonChart({ hydrostatic, viscous }: PressureComparisonChartProps) {
   const bars = [
     {
-      label: "Hydrostatic head (Δρgh)",
+      label: "정수압 헤드 (Hydrostatic head, Δρgh)",
       value: hydrostatic,
       accent: "bg-cyan-400",
       gradient: "from-sky-400 via-sky-500 to-cyan-300",
-      description: "Gravitational column created when the patient stands",
+      description: "환자가 일어설 때 생성되는 중력 기둥",
     },
     {
-      label: "Viscous loss (Poiseuille)",
+      label: "점성 손실 (Viscous loss, Poiseuille)",
       value: viscous,
       accent: "bg-emerald-400",
       gradient: "from-emerald-400 via-emerald-500 to-lime-300",
-      description: "Energy lost to catheter friction at 0.3 mL·min⁻¹",
+      description: "0.3 mL·min⁻¹ 유속에서 카테터 마찰로 인한 에너지 손실",
     },
   ];
 
@@ -30,17 +30,16 @@ export function PressureComparisonChart({ hydrostatic, viscous }: PressureCompar
       <div className="relative z-10 p-6 sm:p-8">
         <div className="flex flex-wrap items-start justify-between gap-6">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-teal-200/70">Standing posture</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-teal-200/70">선 자세 (Standing Posture)</p>
             <h4 className="mt-2 text-2xl font-semibold text-white">Δh = +45&nbsp;cm</h4>
             <p className="mt-3 max-w-md text-sm leading-relaxed text-slate-300">
-              When patients sit or stand, the hydrostatic column injects tens of cmH₂O of driving pressure—over fifty times the
-              viscous drag of the catheter.
+              환자가 앉거나 일어설 때, 정수압 기둥은 수십 cmH₂O의 구동 압력을 주입합니다. 이는 카테터의 점성 저항(viscous drag)보다 50배 이상 큽니다.
             </p>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-right text-xs uppercase tracking-[0.3em]">
-            <p className="text-slate-300">Net driving pressure</p>
+            <p className="text-slate-300">순수 구동 압력 (Net Driving Pressure)</p>
             <p className="mt-2 text-3xl font-semibold text-teal-100">{(hydrostatic - viscous).toFixed(1)} cmH₂O</p>
-            <p className="mt-1 text-[0.7rem] text-slate-400">Gravity minus friction losses</p>
+            <p className="mt-1 text-[0.7rem] text-slate-400">중력 - 마찰 손실</p>
           </div>
         </div>
 
@@ -73,16 +72,15 @@ export function PressureComparisonChart({ hydrostatic, viscous }: PressureCompar
 
         <div className="mt-10 grid gap-4 sm:grid-cols-[minmax(0,1fr),auto]">
           <div className="rounded-2xl border border-white/5 bg-white/5 p-5 text-sm leading-relaxed text-slate-200">
-            <p className="font-semibold text-teal-100">Clinical interpretation</p>
+            <p className="font-semibold text-teal-100">임상적 해석 (Clinical Interpretation)</p>
             <p className="mt-2">
-              Even perfectly tuned valves cannot absorb a +{hydrostatic.toFixed(0)} cmH₂O swing. Without gravity-compensating
-              technology, posture shifts immediately propel flow toward the peritoneum.
+              완벽하게 조율된 밸브라도 +{hydrostatic.toFixed(0)} cmH₂O의 급격한 변화를 흡수할 수 없습니다. 중력 보상 기술 없이는, 자세 변화가 즉시 복강을 향한 과도한 흐름을 유발합니다.
             </p>
           </div>
           <div className="flex flex-col justify-center rounded-2xl border border-white/10 bg-slate-900/60 px-6 py-5 text-right">
-            <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Hydrostatic ÷ viscous</p>
+            <p className="text-xs uppercase tracking-[0.35em] text-slate-400">정수압 ÷ 점성 저항</p>
             <p className="mt-2 text-4xl font-semibold text-cyan-200">{ratio.toFixed(1)}×</p>
-            <p className="mt-1 text-[0.7rem] text-slate-400">Orientation dominates the pressure budget</p>
+            <p className="mt-1 text-[0.7rem] text-slate-400">자세가 전체 압력 예산을 지배함</p>
           </div>
         </div>
       </div>

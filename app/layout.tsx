@@ -9,9 +9,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "The Siphon Phenomenon",
+  title: "사이펀 현상 (The Siphon Phenomenon)",
   description:
-    "An academic deep-dive into the siphon effect in ventricular shunt systems, blending physics, clinical insights, and engineering solutions.",
+    "뇌실 션트 시스템의 사이펀 효과(siphon effect)에 대한 학술적 심층 분석. 물리학, 임상적 통찰, 공학적 해결책을 통합적으로 다룹니다.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
