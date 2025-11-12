@@ -165,16 +165,16 @@ function DatasetSvgPreview({ datasetKey }: { datasetKey: DatasetKey }) {
           <rect width="100%" height="100%" rx={24} fill={`url(#${datasetKey}-glow)`} />
           <text
             x={geometry.width / 2}
-            y={44}
+            y={40}
             textAnchor="middle"
             fill="#ffffff"
-            fontSize={22}
+            fontSize={20}
             fontWeight={600}
             letterSpacing={-0.5}
           >
             {title}
           </text>
-          <text x={geometry.width / 2} y={70} textAnchor="middle" fill="#cbd5e1" fontSize={14}>
+          <text x={geometry.width / 2} y={62} textAnchor="middle" fill="#cbd5e1" fontSize={12}>
             Hydrostatic gradient referenced to the umbilicus
           </text>
           <line
@@ -204,11 +204,11 @@ function DatasetSvgPreview({ datasetKey }: { datasetKey: DatasetKey }) {
           />
           <text
             x={geometry.zeroX}
-            y={geometry.chartTop - 14}
+            y={geometry.chartTop - 12}
             textAnchor="middle"
             fill="#a5f3eb"
-            fontSize={11}
-            letterSpacing="0.3em"
+            fontSize={10}
+            letterSpacing="0.2em"
           >
             NEUTRAL AXIS
           </text>
@@ -224,41 +224,41 @@ function DatasetSvgPreview({ datasetKey }: { datasetKey: DatasetKey }) {
                 opacity={bar.level === peak.level ? 1 : 0.8}
               />
               <text
-                x={geometry.margin.left - 28}
-                y={bar.centerY + 5}
+                x={geometry.margin.left - 24}
+                y={bar.centerY + 4}
                 textAnchor="end"
                 fill="#f1f5f9"
-                fontSize={15}
+                fontSize={14}
                 fontWeight={600}
               >
                 {bar.level}
               </text>
               <text
-                x={geometry.margin.left - 28}
-                y={bar.centerY + 22}
+                x={geometry.margin.left - 24}
+                y={bar.centerY + 18}
                 textAnchor="end"
                 fill="#94a3b8"
-                fontSize={11}
-                letterSpacing="0.08em"
+                fontSize={10}
+                letterSpacing="0.05em"
               >
                 {bar.deltaLabel}
               </text>
               <text
                 x={bar.valueLabelX}
-                y={bar.centerY - 2}
+                y={bar.centerY - 1}
                 textAnchor={bar.valueTextAnchor}
                 fill="#ffffff"
-                fontSize={14}
+                fontSize={13}
                 fontWeight={600}
               >
                 {bar.hydroLabel}
               </text>
               <text
                 x={bar.valueLabelX}
-                y={bar.centerY + 14}
+                y={bar.centerY + 12}
                 textAnchor={bar.valueTextAnchor}
                 fill="#cbd5e1"
-                fontSize={11}
+                fontSize={10}
               >
                 {bar.mmHgLabel}
               </text>
@@ -282,20 +282,20 @@ function DatasetSvgPreview({ datasetKey }: { datasetKey: DatasetKey }) {
           <g>
             <text
               x={geometry.width - geometry.margin.right}
-              y={geometry.chartTop - 18}
+              y={geometry.chartTop - 16}
               textAnchor="end"
               fill="#94a3b8"
-              fontSize={11}
-              letterSpacing="0.2em"
+              fontSize={10}
+              letterSpacing="0.15em"
             >
               PEAK GRADIENT
             </text>
             <text
               x={geometry.width - geometry.margin.right}
-              y={geometry.chartTop - 2}
+              y={geometry.chartTop + 2}
               textAnchor="end"
               fill="#a5f3fc"
-              fontSize={22}
+              fontSize={18}
               fontWeight={600}
             >
               {`${peak.hydrostatic >= 0 ? "+" : ""}${peak.hydrostatic.toFixed(2)} cmH₂O`}
