@@ -7,10 +7,12 @@ import { ReferenceDatasets } from "@/components/reference-datasets";
 import { CalculationCheatsheet } from "@/components/calculation-cheatsheet";
 import { ShuntValveSimulator } from "@/components/shunt-valve-simulator";
 import { ConclusionSection } from "@/components/conclusion";
+import { SiteNavigation } from "@/components/site-navigation";
 
 export default function Page() {
   return (
     <main className="flex flex-col">
+      <SiteNavigation />
       <HeroSection />
       <AnimatedPhysicsDiagram />
       <PatientPostureComparison />

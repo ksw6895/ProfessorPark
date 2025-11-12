@@ -40,7 +40,7 @@ function CheatsheetCard({ title, items }: (typeof cheatsheet)[number]) {
 
 export function CalculationCheatsheet() {
   return (
-    <section>
+    <section id="cheatsheet" className="scroll-mt-32">
       <div className="section-wrapper">
         <span className="badge">Q2 · Quantification</span>
         <h2 className="section-title">Calculation cheatsheet</h2>

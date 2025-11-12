@@ -5,7 +5,7 @@ const standingPosture = hydrostaticPostures.find((posture) => posture.id === "st
 
 export function PressureComparisonChartWrapper() {
   return (
-    <section>
+    <section id="comparison" className="scroll-mt-32">
       <div className="section-wrapper">
         <span className="badge">Q2 · Quantification</span>
         <h2 className="section-title">Standing posture compresses the pressure budget</h2>

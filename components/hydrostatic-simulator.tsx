@@ -93,10 +93,10 @@ export function HydrostaticSimulator() {
   const [selected, setSelected] = useState<HydrostaticPosture>(hydrostaticPostures[2]);
 
   return (
-    <section>
+    <section id="simulator" className="scroll-mt-32">
       <div className="section-wrapper">
         <span className="badge">Q2 · Quantification</span>
-        <h2 className="section-title">정수압 수두가 점성 저항을 압도합니다</h2>
+        <h2 className="section-title">Hydrostatic head overwhelms viscous resistance</h2>
         <p className="section-subtitle max-w-4xl">
           반경 0.6mm 카테터와 생리학적 CSF 생성 속도(0.3 mL/min) 를 기준으로 할 때, 점성 마찰 손실은 고작 0.56 cmH₂O 입니다.
           반면 자세로 인한 높이차는 구동 압력을 −10 cmH₂O 에서 +45 cmH₂O 까지 변화시켜, 환자가 일어설 때 과배액이 폭발적으로 발생하는 이유를 설명합니다.

@@ -167,7 +167,7 @@ function PostureVisual({ posture }: { posture: (typeof postures)[number] }) {
 
 export function PatientPostureComparison() {
   return (
-    <section className="bg-white/70">
+    <section id="clinical" className="bg-white/70 scroll-mt-32">
       <div className="section-wrapper">
         <span className="badge">Q1 · Clinical relevance</span>
         <h2 className="section-title">Why posture transforms a shunt into a siphon</h2>
