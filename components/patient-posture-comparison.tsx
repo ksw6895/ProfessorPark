@@ -46,84 +46,86 @@ const complications = [
 function PostureVisual({ posture }: { posture: (typeof postures)[number] }) {
   const isErect = posture.deltaH > 0;
 
+  const brainPosition = isErect ? { x: 34, y: 18 } : { x: 22, y: 48 };
+  const abdomenPosition = isErect ? { x: 36, y: 108 } : { x: 102, y: 26 };
+
   return (
     <div className="relative flex h-48 w-full items-center justify-center rounded-2xl bg-slate-100 p-4">
       <svg
-        viewBox={isErect ? "0 0 100 150" : "0 0 150 100"}
+        viewBox={isErect ? "0 0 120 160" : "0 0 160 110"}
         className="h-full w-full"
         preserveAspectRatio="xMidYMid meet"
       >
-        <defs>
-          <Brain
-            id="icon-brain"
-            x={isErect ? 25 : 20}
-            y={isErect ? 10 : 30}
-            width="50"
-            height="50"
-            className="text-emerald-600"
-            strokeWidth={1.5}
-          />
-          <svg
-            id="icon-abdomen"
-            x={isErect ? 35 : 110}
-            y={isErect ? 110 : 20} // Supine: Y=20 (더 높음), Erect: Y=110 (더 낮음)
-            width="30"
-            height="30"
-            viewBox="0 0 24 24"
+        {/* 뇌실 아이콘 */}
+        <g transform={`translate(${brainPosition.x}, ${brainPosition.y})`}>
+          <Brain size={36} strokeWidth={1.6} className="text-emerald-600" />
+          <text
+            x={18}
+            y={46}
+            textAnchor="middle"
+            className="fill-slate-500 text-[9px] font-semibold"
+          >
+            Ventricles
+          </text>
+        </g>
+
+        {/* 복강 아이콘 */}
+        <g transform={`translate(${abdomenPosition.x}, ${abdomenPosition.y})`}>
+          <path
+            d="M20 12c0 6-4 6-8 6s-8 0-8-6 4-6 8-6 8 0 8 6Z"
             fill="none"
             stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+            strokeWidth={1.6}
             className="text-sky-600"
+          />
+          <path d="M12 18v-6" stroke="currentColor" strokeWidth={1.6} className="text-sky-600" />
+          <path d="M12 12c-2-2.5-2.5-6-1-7" stroke="currentColor" strokeWidth={1.6} className="text-sky-600" />
+          <path d="M12 12c2-2.5 2.5-6 1-7" stroke="currentColor" strokeWidth={1.6} className="text-sky-600" />
+          <text
+            x={12}
+            y={30}
+            textAnchor="middle"
+            className="fill-slate-500 text-[9px] font-semibold"
           >
-            <path d="M20 12c0 6-4 6-8 6s-8 0-8-6 4-6 8-6 8 0 8 6Z" />
-            <path d="M12 18v-6" />
-            <path d="M12 12c-2-2.5-2.5-6-1-7" />
-            <path d="M12 12c2-2.5 2.5-6 1-7" />
-          </svg>
-        </defs>
-
-        {/* 아이콘 사용 */}
-        <use href="#icon-brain" />
-        <use href="#icon-abdomen" />
+            Peritoneum
+          </text>
+        </g>
 
         {/* 연결선 및 높이차(Δh) 표시 */}
         {isErect ? (
           <>
-            {/* Erect: 수직 연결선 */}
             <line
-              x1="50"
-              y1="45"
-              x2="50"
-              y2="125"
+              x1="58"
+              y1="50"
+              x2="58"
+              y2="130"
               className="stroke-slate-400"
               strokeWidth="1"
               strokeDasharray="3 3"
             />
             <line
-              x1="75"
-              y1="45"
-              x2="75"
-              y2="125"
+              x1="82"
+              y1="52"
+              x2="82"
+              y2="132"
               className="stroke-rose-500/70"
               strokeWidth="2"
             />
             <polyline
-              points="72,120 75,125 78,120"
+              points="79,126 82,132 85,126"
               className="fill-none stroke-rose-500/70"
               strokeWidth="2"
             />
             <text
-              x="80"
-              y="85"
+              x="90"
+              y="86"
               className="fill-rose-600 text-[10px] font-semibold"
             >
               Δh
             </text>
             <text
-              x="80"
-              y="98"
+              x="90"
+              y="100"
               className="fill-rose-600 text-[10px] font-semibold"
             >
               +45cm
@@ -131,29 +133,28 @@ function PostureVisual({ posture }: { posture: (typeof postures)[number] }) {
           </>
         ) : (
           <>
-            {/* Supine: 수평 연결선 (복부가 더 높음) */}
             <line
-              x1="45"
-              y1="55"
-              x2="125"
-              y2="35"
+              x1="52"
+              y1="66"
+              x2="132"
+              y2="38"
               className="stroke-slate-400"
               strokeWidth="1"
               strokeDasharray="3 3"
             />
             <path
-              d="M 45 60 Q 85 75 125 45" // 복부(125,45)가 뇌실(45,60)보다 높음
+              d="M 52 70 Q 92 84 132 48"
               className="fill-none stroke-amber-500/70"
               strokeWidth="2"
             />
             <polyline
-              points="120,48 125,45 123,40" // 화살촉
+              points="126,52 132,48 129,42"
               className="fill-none stroke-amber-500/70"
               strokeWidth="2"
             />
             <text
-              x="85"
-              y="75"
+              x="94"
+              y="88"
               className="fill-amber-600 text-[10px] font-semibold"
             >
               Δh -10cm

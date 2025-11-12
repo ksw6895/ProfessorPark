@@ -46,8 +46,8 @@ function PostureFigure({ posture }: { posture: HydrostaticPosture }) {
               className="absolute left-1/2 top-[92px] flex -translate-x-1/2 flex-col items-center gap-2"
               style={{ transform: `translateY(${offset}px)`, transition: "transform 500ms ease-out" }}
             >
-              <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Peritoneum (복강)</span>
               <Database className="h-5 w-5 text-sky-400 shadow-[0_0_12px_rgba(56,189,248,0.45)]" />
+              <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Peritoneum (복강)</span>
             </div>
 
             {/* Ventricles (뇌실) - 고정 기준점 */}
@@ -101,8 +101,8 @@ export function HydrostaticSimulator() {
           반경 0.6mm 카테터와 생리학적 CSF 생성 속도(0.3 mL/min) 를 기준으로 할 때, 점성 마찰 손실은 고작 0.56 cmH₂O 입니다.
           반면 자세로 인한 높이차는 구동 압력을 −10 cmH₂O 에서 +45 cmH₂O 까지 변화시켜, 환자가 일어설 때 과배액이 폭발적으로 발생하는 이유를 설명합니다.
         </p>
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] xl:gap-16">
-          <div className="card flex-1 space-y-8">
+        <div className="flex flex-col gap-10 xl:gap-16">
+          <div className="card space-y-8">
             <div className="grid gap-6 md:grid-cols-[1.1fr,1fr]">
               <div className="rounded-2xl bg-slate-900/90 p-4">
                 <PostureFigure posture={selected} />
@@ -156,9 +156,8 @@ export function HydrostaticSimulator() {
               <p className="text-sm font-medium text-slate-500">흐름 방향: {selected.direction}</p>
             </div>
           </div>
-          <div className="flex-1 space-y-6">
-            {/* --- 새로운 시각화 컴포트 2: 압력 방향 차트 --- */}
-            <div className="card bg-slate-900 text-slate-100">
+          {/* --- 새로운 시각화 컴포넌트 2: 압력 방향 차트 --- */}
+          <div className="card bg-slate-900 text-slate-100">
               <h3 className="text-lg font-semibold">자세별 구동 압력 방향</h3>
               <p className="mt-2 text-sm text-slate-300">
                 정수압은 점성 저항(0.56) 과 비교할 수 없을 정도로 큽니다.
@@ -213,8 +212,6 @@ export function HydrostaticSimulator() {
                   <span className="font-bold text-sky-300">오른쪽 (양압)</span>: 배액 촉진 (내리막/사이펀)
                 </div>
               </div>
-            </div>
-            {/* --- --- */}
           </div>
         </div>
       </div>
