@@ -204,280 +204,249 @@ function computeSpinalChartGeometry(rows: SpinalRow[]): SpinalChartGeometry {
   };
 }
 
-function generateDatasetSvg(datasetKey: DatasetKey) {
-  const { title, rows } = spinalDataset[datasetKey];
-  const geometry = computeSpinalChartGeometry(rows);
-  const { width, height, zeroX, chartTop, chartBottom, bars, ticks } = geometry;
-
-  const fontStack = "'Inter', 'Pretendard', 'Noto Sans KR', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
-
-  const barsMarkup = bars
-    .map(
-      (bar) => `
-      <g>
-        <rect x="${bar.barX.toFixed(2)}" y="${bar.y.toFixed(2)}" width="${bar.barWidth.toFixed(
-        2,
-      )}" height="${bar.barHeight}" rx="6" fill="${bar.isPositive ? "#38bdf8" : "#f97316"}" />
-        <text x="${geometry.margin.left - 24}" y="${(bar.centerY + 5).toFixed(2)}" font-size="16" font-family="${fontStack}" text-anchor="end" fill="#0f172a">${bar.level}</text>
-        <text x="${geometry.margin.left - 24}" y="${(bar.centerY + 21).toFixed(2)}" font-size="12" font-family="${fontStack}" text-anchor="end" fill="#475569">${bar.deltaLabel}</text>
-        <text x="${bar.valueLabelX.toFixed(2)}" y="${(bar.centerY - 2).toFixed(2)}" font-size="14" font-family="${fontStack}" text-anchor="${bar.valueTextAnchor}" font-weight="600" fill="#0f172a">${bar.hydroLabel}</text>
-        <text x="${bar.valueLabelX.toFixed(2)}" y="${(bar.centerY + 14).toFixed(2)}" font-size="12" font-family="${fontStack}" text-anchor="${bar.valueTextAnchor}" fill="#475569">${bar.mmHgLabel}</text>
-      </g>
-    `,
-    )
-    .join("\n");
-
-  const tickMarkup = ticks
-    .map(
-      (tick) => `
-      <g>
-        <line x1="${tick.x.toFixed(2)}" x2="${tick.x.toFixed(2)}" y1="${chartBottom}" y2="${chartBottom + 8}" stroke="#94a3b8" stroke-width="1" />
-        <text x="${tick.x.toFixed(2)}" y="${chartBottom + 28}" font-size="12" font-family="${fontStack}" text-anchor="middle" fill="#475569">${tick.value.toFixed(2)} cmH₂O</text>
-      </g>
-    `,
-    )
-    .join("\n");
-
-  const svg = `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="title-${datasetKey} desc-${datasetKey}">
-  <title id="title-${datasetKey}">${title} · Hydrostatic gradient</title>
-  <desc id="desc-${datasetKey}">Hydrostatic profile relative to the umbilicus derived from the spinal dataset rows.</desc>
-  <rect width="100%" height="100%" rx="18" fill="#ffffff" />
-  <g>
-    <text x="${width / 2}" y="40" font-size="20" font-family="${fontStack}" text-anchor="middle" font-weight="600" fill="#0f172a">${title}</text>
-    <text x="${width / 2}" y="64" font-size="14" font-family="${fontStack}" text-anchor="middle" fill="#475569">Hydrostatic gradient relative to the umbilicus</text>
-    <line x1="${geometry.margin.left}" x2="${width - geometry.margin.right}" y1="${chartTop}" y2="${chartTop}" stroke="#cbd5f5" stroke-width="1" />
-    <line x1="${geometry.margin.left}" x2="${width - geometry.margin.right}" y1="${chartBottom}" y2="${chartBottom}" stroke="#e2e8f0" stroke-width="1" />
-    <line x1="${zeroX.toFixed(2)}" x2="${zeroX.toFixed(2)}" y1="${chartTop}" y2="${chartBottom}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="6 6" />
-    <text x="${zeroX.toFixed(2)}" y="${chartTop - 12}" font-size="12" font-family="${fontStack}" text-anchor="middle" fill="#475569">0 cmH₂O</text>
-  </g>
-  ${barsMarkup}
-  ${tickMarkup}
-</svg>`;
-
-  return svg;
-}
-
-function downloadCsv(datasetKey: DatasetKey) {
-  const { title, rows } = spinalDataset[datasetKey];
-  const headers = ["Level", "Δh (cm)", "ΔPₕ (cmH₂O)", "ΔPₕ (mmHg)"];
-  const csvContent = [
-    headers.join(","),
-    ...rows.map((row) =>
-      [row.level, row.deltaH.toString(), row.hydrostatic.toFixed(2), row.mmHg.toFixed(2)].join(","),
-    ),
-  ].join("\n");
-
-  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = `${title.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}-dataset.csv`;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
-}
-
-function downloadSvg(datasetKey: DatasetKey) {
-  const svgContent = generateDatasetSvg(datasetKey);
-  const { title } = spinalDataset[datasetKey];
-  const blob = new Blob([svgContent], { type: "image/svg+xml;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = `${title.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}-profile.svg`;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
-}
-
 function DatasetSvgPreview({ datasetKey }: { datasetKey: DatasetKey }) {
   const { title, rows } = spinalDataset[datasetKey];
   const geometry = computeSpinalChartGeometry(rows);
+  const peak = rows.reduce((max, row) => (Math.abs(row.hydrostatic) > Math.abs(max.hydrostatic) ? row : max), rows[0]);
+  const gradientId = `${datasetKey}-positive`;
+  const negativeGradientId = `${datasetKey}-negative`;
 
   return (
-    <div className="mt-4 rounded-2xl border border-slate-200/70 bg-white p-4">
-      <svg
-        role="img"
-        aria-labelledby={`${datasetKey}-svg-title`}
-        viewBox={`0 0 ${geometry.width} ${geometry.height}`}
-        preserveAspectRatio="xMidYMid meet"
-        className="h-auto w-full"
-      >
-        <title id={`${datasetKey}-svg-title`}>{`${title} hydrostatic gradient preview`}</title>
-        <rect width="100%" height="100%" rx={18} fill="#ffffff" />
-        <text
-          x={geometry.width / 2}
-          y={40}
-          textAnchor="middle"
-          className="fill-slate-900 text-[20px] font-semibold"
+    <figure className="mt-6 overflow-hidden rounded-3xl border border-slate-200/70 bg-slate-950/95 text-slate-100 shadow-[0_25px_70px_-35px_rgba(15,23,42,0.65)]">
+      <div className="relative">
+        <svg
+          role="img"
+          aria-labelledby={`${datasetKey}-svg-title`}
+          viewBox={`0 0 ${geometry.width} ${geometry.height}`}
+          preserveAspectRatio="xMidYMid meet"
+          className="h-auto w-full"
         >
-          {title}
-        </text>
-        <text x={geometry.width / 2} y={64} textAnchor="middle" className="fill-slate-500 text-sm">
-          Hydrostatic gradient relative to the umbilicus
-        </text>
-        <line
-          x1={geometry.margin.left}
-          x2={geometry.width - geometry.margin.right}
-          y1={geometry.chartTop}
-          y2={geometry.chartTop}
-          stroke="#cbd5f5"
-          strokeWidth={1}
-        />
-        <line
-          x1={geometry.margin.left}
-          x2={geometry.width - geometry.margin.right}
-          y1={geometry.chartBottom}
-          y2={geometry.chartBottom}
-          stroke="#e2e8f0"
-          strokeWidth={1}
-        />
-        <line
-          x1={geometry.zeroX}
-          x2={geometry.zeroX}
-          y1={geometry.chartTop}
-          y2={geometry.chartBottom}
-          stroke="#94a3b8"
-          strokeWidth={1}
-          strokeDasharray="6 6"
-        />
-        <text x={geometry.zeroX} y={geometry.chartTop - 12} textAnchor="middle" className="fill-slate-500 text-xs">
-          0 cmH₂O
-        </text>
-        {geometry.bars.map((bar) => (
-          <g key={bar.level}>
-            <rect
-              x={bar.barX}
-              y={bar.y}
-              width={bar.barWidth}
-              height={bar.barHeight}
-              rx={6}
-              fill={bar.isPositive ? "#38bdf8" : "#f97316"}
-            />
+          <title id={`${datasetKey}-svg-title`}>{`${title} hydrostatic gradient preview`}</title>
+          <defs>
+            <linearGradient id={gradientId} x1="0%" x2="100%" y1="0%" y2="0%">
+              <stop offset="0%" stopColor="#0ea5e9" />
+              <stop offset="100%" stopColor="#22d3ee" />
+            </linearGradient>
+            <linearGradient id={negativeGradientId} x1="100%" x2="0%" y1="0%" y2="0%">
+              <stop offset="0%" stopColor="#fb923c" />
+              <stop offset="100%" stopColor="#f59e0b" />
+            </linearGradient>
+            <radialGradient id={`${datasetKey}-glow`} cx="50%" cy="10%" r="70%">
+              <stop offset="0%" stopColor="rgba(56,189,248,0.45)" />
+              <stop offset="100%" stopColor="rgba(15,23,42,0)" />
+            </radialGradient>
+          </defs>
+          <rect width="100%" height="100%" rx={24} fill="#020617" />
+          <rect width="100%" height="100%" rx={24} fill={`url(#${datasetKey}-glow)`} />
+          <text
+            x={geometry.width / 2}
+            y={44}
+            textAnchor="middle"
+            className="fill-white text-[22px] font-semibold tracking-tight"
+          >
+            {title}
+          </text>
+          <text
+            x={geometry.width / 2}
+            y={70}
+            textAnchor="middle"
+            className="fill-slate-300 text-sm"
+          >
+            Hydrostatic gradient referenced to the umbilicus
+          </text>
+          <line
+            x1={geometry.margin.left}
+            x2={geometry.width - geometry.margin.right}
+            y1={geometry.chartTop}
+            y2={geometry.chartTop}
+            stroke="rgba(148,163,184,0.35)"
+            strokeWidth={1}
+          />
+          <line
+            x1={geometry.margin.left}
+            x2={geometry.width - geometry.margin.right}
+            y1={geometry.chartBottom}
+            y2={geometry.chartBottom}
+            stroke="rgba(148,163,184,0.15)"
+            strokeWidth={1}
+          />
+          <line
+            x1={geometry.zeroX}
+            x2={geometry.zeroX}
+            y1={geometry.chartTop}
+            y2={geometry.chartBottom}
+            stroke="rgba(94,234,212,0.65)"
+            strokeWidth={1.5}
+            strokeDasharray="4 10"
+          />
+          <text
+            x={geometry.zeroX}
+            y={geometry.chartTop - 14}
+            textAnchor="middle"
+            className="fill-teal-200 text-[11px] uppercase tracking-[0.3em]"
+          >
+            Neutral axis
+          </text>
+          {geometry.bars.map((bar) => (
+            <g key={bar.level}>
+              <rect
+                x={bar.barX}
+                y={bar.y}
+                width={bar.barWidth}
+                height={bar.barHeight}
+                rx={12}
+                fill={`url(#${bar.isPositive ? gradientId : negativeGradientId})`}
+                opacity={bar.level === peak.level ? 1 : 0.8}
+              />
+              <text
+                x={geometry.margin.left - 28}
+                y={bar.centerY + 5}
+                textAnchor="end"
+                className="fill-slate-100 text-[15px] font-semibold"
+              >
+                {bar.level}
+              </text>
+              <text
+                x={geometry.margin.left - 28}
+                y={bar.centerY + 22}
+                textAnchor="end"
+                className="fill-slate-400 text-[11px] tracking-wide"
+              >
+                {bar.deltaLabel}
+              </text>
+              <text
+                x={bar.valueLabelX}
+                y={bar.centerY - 2}
+                textAnchor={bar.valueTextAnchor}
+                className="fill-white text-sm font-semibold"
+              >
+                {bar.hydroLabel}
+              </text>
+              <text
+                x={bar.valueLabelX}
+                y={bar.centerY + 14}
+                textAnchor={bar.valueTextAnchor}
+                className="fill-slate-300 text-[11px]"
+              >
+                {bar.mmHgLabel}
+              </text>
+            </g>
+          ))}
+          {geometry.ticks.map((tick) => (
+            <g key={`${datasetKey}-tick-${tick.value}`}>
+              <line
+                x1={tick.x}
+                x2={tick.x}
+                y1={geometry.chartBottom}
+                y2={geometry.chartBottom + 10}
+                stroke="rgba(148,163,184,0.35)"
+                strokeWidth={1}
+              />
+              <text
+                x={tick.x}
+                y={geometry.chartBottom + 28}
+                textAnchor="middle"
+                className="fill-slate-400 text-[11px]"
+              >
+                {tick.value.toFixed(2)} cmH₂O
+              </text>
+            </g>
+          ))}
+          <g>
             <text
-              x={geometry.margin.left - 24}
-              y={bar.centerY + 5}
+              x={geometry.width - geometry.margin.right}
+              y={geometry.chartTop - 18}
               textAnchor="end"
-              className="fill-slate-900 text-base font-medium"
+              className="fill-slate-300 text-[11px] uppercase tracking-[0.2em]"
             >
-              {bar.level}
+              Peak gradient
             </text>
             <text
-              x={geometry.margin.left - 24}
-              y={bar.centerY + 21}
+              x={geometry.width - geometry.margin.right}
+              y={geometry.chartTop - 2}
               textAnchor="end"
-              className="fill-slate-500 text-xs"
+              className="fill-cyan-200 text-[22px] font-semibold"
             >
-              {bar.deltaLabel}
-            </text>
-            <text
-              x={bar.valueLabelX}
-              y={bar.centerY - 2}
-              textAnchor={bar.valueTextAnchor}
-              className="fill-slate-900 text-sm font-semibold"
-            >
-              {bar.hydroLabel}
-            </text>
-            <text
-              x={bar.valueLabelX}
-              y={bar.centerY + 14}
-              textAnchor={bar.valueTextAnchor}
-              className="fill-slate-500 text-xs"
-            >
-              {bar.mmHgLabel}
+              {`${peak.hydrostatic >= 0 ? "+" : ""}${peak.hydrostatic.toFixed(2)} cmH₂O`}
             </text>
           </g>
-        ))}
-        {geometry.ticks.map((tick) => (
-          <g key={`${datasetKey}-tick-${tick.value}`}>
-            <line
-              x1={tick.x}
-              x2={tick.x}
-              y1={geometry.chartBottom}
-              y2={geometry.chartBottom + 8}
-              stroke="#94a3b8"
-              strokeWidth={1}
-            />
-            <text x={tick.x} y={geometry.chartBottom + 26} textAnchor="middle" className="fill-slate-500 text-xs">
-              {tick.value.toFixed(2)} cmH₂O
-            </text>
-          </g>
-        ))}
-      </svg>
-      <p className="mt-3 text-xs text-slate-500">
-        Use this vector profile directly in slides: the SVG preserves crisp text annotations for Δh, cmH₂O, and mmHg.
-      </p>
-    </div>
+        </svg>
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.12),_rgba(14,116,144,0.05),_transparent_70%)]" />
+      </div>
+      <figcaption className="border-t border-white/5 bg-slate-900/80 px-6 py-4 text-sm leading-relaxed text-slate-200">
+        Gravity bends the pressure profile around the thoracic spine. Highlighted bars mark the dominant level in this posture,
+        and the teal axis shows the zero-crossing where siphoning reverses.
+      </figcaption>
+    </figure>
   );
 }
 
 function DatasetTable({ datasetKey }: { datasetKey: DatasetKey }) {
   const { title, rows } = spinalDataset[datasetKey];
+  const peakRow = rows.reduce((max, row) => (row.hydrostatic > max.hydrostatic ? row : max), rows[0]);
+  const troughRow = rows.reduce((min, row) => (row.hydrostatic < min.hydrostatic ? row : min), rows[0]);
+  const span = peakRow.hydrostatic - troughRow.hydrostatic;
 
   return (
     <details className="dataset-accordion group p-4">
       <summary className="rounded-lg transition group-open:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white">
-        <div className="flex flex-1 flex-wrap items-center justify-between gap-4">
-          <div>
+        <div className="flex flex-1 flex-wrap items-center justify-between gap-6">
+          <div className="max-w-xs">
             <p className="text-base font-semibold text-primary">{title}</p>
             <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
-              ΔP referenced to the umbilicus
+              Hydrostatic slices referenced to the umbilicus
             </p>
           </div>
-          <div className="flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              onClick={(event) => {
-                event.preventDefault();
-                downloadCsv(datasetKey);
-              }}
-              className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary transition hover:bg-primary hover:text-white"
-            >
-              CSV
-            </button>
-            <button
-              type="button"
-              onClick={(event) => {
-                event.preventDefault();
-                downloadSvg(datasetKey);
-              }}
-              className="rounded-full border border-emerald-400/40 bg-emerald-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-600 transition hover:bg-emerald-500 hover:text-white"
-            >
-              SVG
-            </button>
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-lg font-semibold text-primary transition group-open:rotate-45 group-open:bg-primary group-open:text-white">
+          <div className="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-wide text-slate-400">
+            <span className="rounded-full bg-primary/10 px-3 py-1 text-primary">
+              Peak {peakRow.hydrostatic >= 0 ? '+' : ''}{peakRow.hydrostatic.toFixed(2)} cmH₂O @ {peakRow.level}
+            </span>
+            <span className="rounded-full bg-amber-500/10 px-3 py-1 text-amber-500">
+              Span {span.toFixed(2)} cmH₂O
+            </span>
+            <span className="rounded-full bg-slate-100 px-2 py-1 text-[0.65rem] font-bold text-primary transition group-open:rotate-45 group-open:bg-primary group-open:text-white">
               +
             </span>
           </div>
         </div>
       </summary>
-      <div className="mt-4 overflow-x-auto">
+      <div className="mt-4 overflow-hidden rounded-2xl border border-slate-200/70">
         <table className="min-w-full divide-y divide-slate-200 text-sm">
           <thead>
             <tr className="bg-slate-50 text-xs uppercase tracking-wider text-slate-500">
-              <th className="px-3 py-2 text-left">Level</th>
-              <th className="px-3 py-2 text-right">Δh (cm)</th>
-              <th className="px-3 py-2 text-right">ΔPₕ (cmH₂O)</th>
-              <th className="px-3 py-2 text-right">ΔPₕ (mmHg)</th>
+              <th className="px-4 py-2 text-left">Level</th>
+              <th className="px-4 py-2 text-right">Δh (cm)</th>
+              <th className="px-4 py-2 text-right">ΔPₕ (cmH₂O)</th>
+              <th className="px-4 py-2 text-right">ΔPₕ (mmHg)</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100">
-            {rows.map((row) => (
-              <tr key={row.level} className="bg-white">
-                <td className="px-3 py-2 font-medium text-slate-700">{row.level}</td>
-                <td className="px-3 py-2 text-right text-slate-600">{row.deltaH}</td>
-                <td className="px-3 py-2 text-right text-slate-600">{row.hydrostatic.toFixed(2)}</td>
-                <td className="px-3 py-2 text-right text-slate-600">{row.mmHg.toFixed(2)}</td>
-              </tr>
-            ))}
+          <tbody className="divide-y divide-slate-100 bg-white">
+            {rows.map((row) => {
+              const isPeak = row.level === peakRow.level;
+              const isTrough = row.level === troughRow.level;
+              return (
+                <tr
+                  key={row.level}
+                  className={`${
+                    isPeak
+                      ? 'bg-cyan-50 text-slate-800'
+                      : isTrough
+                      ? 'bg-amber-50 text-slate-800'
+                      : 'text-slate-600'
+                  }`}
+                >
+                  <td className="px-4 py-2 font-semibold text-slate-700">{row.level}</td>
+                  <td className="px-4 py-2 text-right">{row.deltaH}</td>
+                  <td className="px-4 py-2 text-right font-medium">{row.hydrostatic.toFixed(2)}</td>
+                  <td className="px-4 py-2 text-right">{row.mmHg.toFixed(2)}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
       <p className="mt-3 text-xs text-slate-500">
-        Values reference a 175 cm adult with ventricles aligned to the external auditory meatus and the umbilicus at T10. Adjust Δh to re-compute pressures using ΔPₕ ≈ 1.007 × Δh.
+        Calibrated for a 175 cm adult with the ventricles aligned to the external auditory meatus. Adjust Δh to re-compute pressures using ΔPₕ ≈ 1.007 × Δh.
       </p>
       <DatasetSvgPreview datasetKey={datasetKey} />
     </details>
@@ -682,7 +651,7 @@ export function HydrostaticSimulator() {
             <div className="rounded-2xl border border-slate-200/70 bg-white p-6">
               <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">Hydrostatic reference datasets</p>
               <p className="mt-2 text-sm text-slate-600">
-                Export the exact Δh and ΔP values cited in the report. Choose CSV for spreadsheets or SVG to drop the annotated gradient chart straight into slides.
+                Explore the exact Δh and ΔP values cited in the report with high-fidelity visuals. Each dataset now embeds a cinematic vector preview you can capture directly for slides—no downloads required.
               </p>
               <div className="mt-4 space-y-3 text-sm text-slate-600">
                 <DatasetTable datasetKey="upright" />
