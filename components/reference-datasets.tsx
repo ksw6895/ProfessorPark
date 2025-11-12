@@ -85,8 +85,9 @@ function computeSpinalChartGeometry(rows: SpinalRow[]): SpinalChartGeometry {
     const deltaLabel = `Δh ${row.deltaH > 0 ? "+" : ""}${row.deltaH} cm`;
     const hydroLabel = `${row.hydrostatic >= 0 ? "+" : ""}${row.hydrostatic.toFixed(2)} cmH₂O`;
     const mmHgLabel = `${row.mmHg >= 0 ? "+" : ""}${row.mmHg.toFixed(2)} mmHg`;
-    const valueLabelX = isPositive ? barX + barWidth + 14 : barX - 14;
-    const valueTextAnchor: "start" | "end" = isPositive ? "start" : "end";
+    // Place positive labels outside to the right, and negative labels just inside the bar on the left.
+    const valueLabelX = isPositive ? barX + barWidth + 14 : barX + 14;
+    const valueTextAnchor: "start" | "end" = "start";
 
     return {
       barX,
