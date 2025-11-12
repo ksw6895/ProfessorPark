@@ -1,0 +1,44 @@
+<svg width="720" height="540" viewBox="0 0 720 540" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="720" height="540" rx="28" fill="url(#paint0_radial)"/>
+  <g opacity="0.35" filter="url(#filter0_f)">
+    <circle cx="170" cy="160" r="120" fill="#38bdf8"/>
+    <circle cx="570" cy="380" r="140" fill="#0ea5e9"/>
+  </g>
+  <g opacity="0.8">
+    <path d="M240 110C240 90 256 74 276 74H446C466 74 482 90 482 110V430C482 450 466 466 446 466H276C256 466 240 450 240 430V110Z" fill="#020617" fill-opacity="0.75"/>
+    <rect x="268" y="112" width="186" height="316" rx="18" fill="#020617" fill-opacity="0.85" stroke="#1f2937" stroke-width="3"/>
+    <rect x="336" y="132" width="46" height="46" rx="8" fill="#1d4ed8"/>
+    <path d="M359 180V380" stroke="#38bdf8" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="360" cy="224" r="16" fill="#bae6fd" stroke="#38bdf8" stroke-width="3"/>
+    <rect x="332" y="382" width="56" height="40" rx="10" fill="#0f172a" stroke="#38bdf8" stroke-width="3"/>
+    <path d="M360 422V470" stroke="#38bdf8" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="360" cy="482" r="12" fill="#0ea5e9" stroke="#38bdf8" stroke-width="2"/>
+  </g>
+  <g opacity="0.85">
+    <path d="M540 130C540 115.641 551.641 104 566 104H612C626.359 104 638 115.641 638 130V278C638 292.359 626.359 304 612 304H566C551.641 304 540 292.359 540 278V130Z" fill="#020617" fill-opacity="0.7"/>
+    <rect x="556" y="140" width="66" height="190" rx="12" fill="#020617" fill-opacity="0.85" stroke="#1f2937" stroke-width="3"/>
+    <circle cx="589" cy="170" r="18" fill="#22d3ee"/>
+    <rect x="582" y="246" width="16" height="64" rx="8" fill="#f97316"/>
+    <path d="M590 310V420" stroke="#22d3ee" stroke-width="4" stroke-linecap="round" stroke-dasharray="8 10"/>
+    <circle cx="590" cy="432" r="10" fill="#22d3ee"/>
+  </g>
+  <g opacity="0.85">
+    <path d="M96 204C96 185.222 111.222 170 130 170H174C192.778 170 208 185.222 208 204V380C208 398.778 192.778 414 174 414H130C111.222 414 96 398.778 96 380V204Z" fill="#020617" fill-opacity="0.7"/>
+    <rect x="112" y="214" width="68" height="154" rx="16" fill="#020617" fill-opacity="0.85" stroke="#1f2937" stroke-width="3"/>
+    <circle cx="146" cy="250" r="16" fill="#38bdf8"/>
+    <rect x="138" y="290" width="16" height="68" rx="8" fill="#22c55e"/>
+    <path d="M146 358V430" stroke="#38bdf8" stroke-width="4" stroke-linecap="round" stroke-dasharray="6 8"/>
+    <circle cx="146" cy="444" r="10" fill="#38bdf8"/>
+  </g>
+  <defs>
+    <radialGradient id="paint0_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(120 80) rotate(35) scale(760 520)">
+      <stop stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#020617"/>
+    </radialGradient>
+    <filter id="filter0_f" x="-70" y="-80" width="920" height="820" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+      <feGaussianBlur stdDeviation="60" result="effect1_foregroundBlur"/>
+    </filter>
+  </defs>
+</svg>

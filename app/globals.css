@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background: rgb(241 245 249);
+}
+
+a {
+  color: inherit;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-right {
+  from {
+    opacity: 0;
+    transform: translateX(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fade-up {
+  animation: fade-up 0.6s ease-out forwards;
+}
+
+.fade-right {
+  animation: fade-right 0.6s ease-out forwards;
+}
+
+details {
+  @apply transition;
+}
+
+details[open] {
+  @apply border-primary/30 shadow-soft;
+}
+
+details summary {
+  @apply flex items-center justify-between gap-3 text-sm;
+}
+
+details summary::after {
+  content: "+";
+  @apply text-primary/60 transition-transform;
+}
+
+details[open] summary::after {
+  content: "−";
+  @apply rotate-180 text-primary;
+}
+
+.section-wrapper {
+  @apply mx-auto max-w-6xl px-6 py-20 lg:px-8;
+}
+
+.section-title {
+  @apply mb-8 text-3xl font-extrabold tracking-tight text-primary sm:text-4xl;
+}
+
+.section-subtitle {
+  @apply mb-6 text-lg font-medium text-slate-600;
+}
+
+.card {
+  @apply rounded-2xl bg-white p-8 shadow-soft ring-1 ring-slate-200/60;
+}
+
+.badge {
+  @apply inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary;
+}
+
+.metric {
+  @apply text-4xl font-bold text-primary;
+}
+
+.metric-label {
+  @apply text-sm font-medium uppercase tracking-wide text-slate-500;
+}
